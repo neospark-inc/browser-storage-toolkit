@@ -1,0 +1,52 @@
+{
+  "name": "browser-storage-manager",
+  "version": "1.0.0",
+  "description": "a simple unified browser storage toolkit for cookies, localStorage and sessionStorage",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/cjs/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "clean": "rimraf dist",
+    "build:esm": "tsc",
+    "build:cjs": "tsc --project tsconfig.cjs.json",
+    "build": "npm run clean && npm run build:esm && npm run build:cjs",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "browser",
+    "storage",
+    "cookie",
+    "localstorage",
+    "sessionstorage",
+    "typescript",
+    "ssr",
+    "nextjs",
+    "utility"
+  ],
+  "author": "neospark-inc",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neospark-inc/browser-storage-manager.git"
+  },
+  "bugs": {
+    "url": "https://github.com/neospark-inc/browser-storage-manager/issues"
+  },
+  "homepage": "https://github.com/neospark-inc/browser-storage-manager#readme",
+  "devDependencies": {
+    "rimraf": "^6.1.3",
+    "typescript": "^5.8.3"
+  }
+}
