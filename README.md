@@ -185,7 +185,7 @@ contributions are welcome. here's how to get started:
 2. clone your fork
 
 ```bash
-git clone https://github.com/your-username/browser-storage-manager.git
+git clone https://github.com/neospark-inc/browser-storage-manager.git
 cd browser-storage-manager
 ```
 
