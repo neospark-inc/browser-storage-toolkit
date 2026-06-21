@@ -1,50 +1,81 @@
-# browser-storage-manager
+# browser-storage-toolkit
 
-a simple, lightweight toolkit to manage browser storage — cookies, localStorage, and sessionStorage — through one clean api.
+A lightweight, unified browser storage toolkit for **Cookies**, **localStorage**, and **sessionStorage** — through one clean API.
 
-built with typescript. zero dependencies. works everywhere including ssr frameworks like next.js.
-
----
-
-## features
-
-- **unified api** — one import, three storage types
-- **cookie manager** — set, get, delete with full options (expiry, path, secure, sameSite)
-- **localStorage wrapper** — auto json stringify/parse, availability fallback
-- **sessionStorage wrapper** — same clean api as localStorage
-- **ssr safe** — won't crash on server, returns safe defaults
-- **typescript first** — full type support out of the box
-- **zero dependencies** — nothing extra, just what you need
-- **tiny bundle** — minimal footprint
+Built with **TypeScript**. Zero dependencies. **SSR-safe** out of the box.
 
 ---
 
-## installation
+## Why This Exists
+
+Managing browser storage shouldn't require three different mental models. Most projects end up with scattered `document.cookie` parsing, manual `JSON.stringify`/`JSON.parse` calls, and server-side rendering crashes — all for basic storage operations.
+
+**browser-storage-toolkit** solves this by providing:
+
+- 🔗 **One unified API** for Cookies, localStorage, and sessionStorage
+- 🔒 **SSR safety** — no crashes on the server, returns safe defaults automatically
+- 🔄 **Automatic JSON serialization** — store and retrieve objects without boilerplate
+- 📦 **Zero dependencies** — nothing extra, just what you need
+- ⚡ **Tree-shakeable** — import only what you use
+
+---
+
+## Quick Start
 
 ```bash
-npm install browser-storage-manager
+npm install browser-storage-toolkit
 ```
 
----
-
-## usage
-
-### unified storage object
-
-the easiest way to use everything:
-
 ```ts
-import { storage } from "browser-storage-manager";
+import { storage } from "browser-storage-toolkit";
 
+// Cookies
 storage.cookie.setCookie("token", "abc123", { days: 7, secure: true });
-storage.local.setItem("user", { name: "bibek", role: "admin" });
+
+// localStorage
+storage.local.setItem("user", { name: "Bibek", role: "admin" });
+
+// sessionStorage
 storage.session.setItem("tab-state", { page: 3 });
 ```
 
-### cookies
+That's it. One import, three storage types. All SSR-safe.
+
+---
+
+## Features
+
+| Feature                    | Details                                                    |
+| -------------------------- | ---------------------------------------------------------- |
+| **Unified API**            | One import, three storage types                            |
+| **Cookie Manager**         | Set, get, delete with full options (expiry, path, Secure, SameSite) |
+| **localStorage Wrapper**   | Automatic JSON serialization/parsing with availability fallback |
+| **sessionStorage Wrapper** | Same clean API as localStorage                             |
+| **SSR Safe**               | Returns `null` for reads, skips writes on the server       |
+| **TypeScript First**       | Full type support out of the box                           |
+| **Zero Dependencies**      | Nothing extra, just what you need                          |
+| **Tree-Shakeable**         | Import only the functions you use                          |
+
+---
+
+## Usage
+
+### Unified Storage Object
+
+The easiest way to access all storage types:
 
 ```ts
-import { setCookie, getCookie, deleteCookie } from "browser-storage-manager";
+import { storage } from "browser-storage-toolkit";
+
+storage.cookie.setCookie("token", "abc123", { days: 7, secure: true });
+storage.local.setItem("user", { name: "Bibek", role: "admin" });
+storage.session.setItem("tab-state", { page: 3 });
+```
+
+### Cookies
+
+```ts
+import { setCookie, getCookie, deleteCookie } from "browser-storage-toolkit";
 
 setCookie("theme", "dark", {
   days: 30,
@@ -58,20 +89,20 @@ const theme = getCookie("theme");
 deleteCookie("theme");
 ```
 
-**cookie options:**
+**Cookie Options:**
 
-| option     | type                           | default | description            |
-| ---------- | ------------------------------ | ------- | ---------------------- |
-| `days`     | `number`                       | —       | expire after n days    |
-| `minutes`  | `number`                       | —       | expire after n minutes |
-| `path`     | `string`                       | `"/"`   | cookie path            |
-| `secure`   | `boolean`                      | —       | https only             |
-| `sameSite` | `"Strict" \| "Lax" \| "None"` | —       | cross-site policy      |
+| Option     | Type                             | Default | Description              |
+| ---------- | -------------------------------- | ------- | ------------------------ |
+| `days`     | `number`                         | —       | Expire after N days      |
+| `minutes`  | `number`                         | —       | Expire after N minutes   |
+| `path`     | `string`                         | `"/"`   | Cookie path              |
+| `secure`   | `boolean`                        | —       | HTTPS only               |
+| `sameSite` | `"Strict" \| "Lax" \| "None"`   | —       | Cross-site policy        |
 
 ### localStorage
 
 ```ts
-import { storage } from "browser-storage-manager";
+import { storage } from "browser-storage-toolkit";
 
 storage.local.setItem("settings", { theme: "dark", lang: "en" });
 
@@ -82,14 +113,14 @@ storage.local.removeItem("settings");
 storage.local.clear();
 ```
 
-objects and arrays are automatically serialized to json and parsed back — you don't need to worry about `JSON.stringify` or `JSON.parse`.
+Objects and arrays are automatically serialized to JSON and parsed back — no need for manual `JSON.stringify` or `JSON.parse`.
 
 ### sessionStorage
 
 ```ts
-import { storage } from "browser-storage-manager";
+import { storage } from "browser-storage-toolkit";
 
-storage.session.setItem("form-draft", { name: "bibek", step: 2 });
+storage.session.setItem("form-draft", { name: "Bibek", step: 2 });
 
 const draft = storage.session.getItem("form-draft");
 
@@ -100,39 +131,39 @@ storage.session.clear();
 
 ---
 
-## api reference
+## API Reference
 
-### cookie
+### Cookie
 
-| method                               | returns         | description               |
-| ------------------------------------ | --------------- | ------------------------- |
-| `setCookie(name, value, options?)`   | `void`          | sets a cookie             |
-| `getCookie(name)`                    | `string \| null`| gets a cookie value       |
-| `deleteCookie(name, path?)`         | `void`          | deletes a cookie          |
+| Method                               | Returns          | Description           |
+| ------------------------------------ | ---------------- | --------------------- |
+| `setCookie(name, value, options?)`   | `void`           | Sets a cookie         |
+| `getCookie(name)`                    | `string \| null` | Gets a cookie value   |
+| `deleteCookie(name, path?)`          | `void`           | Deletes a cookie      |
 
 ### localStorage
 
-| method                | returns        | description                  |
-| --------------------- | -------------- | ---------------------------- |
-| `setItem(key, value)` | `void`         | stores value (auto json)     |
-| `getItem(key)`        | `T \| null`    | retrieves value (auto parse) |
-| `removeItem(key)`     | `void`         | removes a key                |
-| `clear()`             | `void`         | clears all local storage     |
+| Method                | Returns      | Description                    |
+| --------------------- | ------------ | ------------------------------ |
+| `setItem(key, value)` | `void`       | Stores value (auto JSON)       |
+| `getItem(key)`        | `T \| null`  | Retrieves value (auto parse)   |
+| `removeItem(key)`     | `void`       | Removes a key                  |
+| `clear()`             | `void`       | Clears all localStorage        |
 
 ### sessionStorage
 
-| method                | returns        | description                  |
-| --------------------- | -------------- | ---------------------------- |
-| `setItem(key, value)` | `void`         | stores value (auto json)     |
-| `getItem(key)`        | `T \| null`    | retrieves value (auto parse) |
-| `removeItem(key)`     | `void`         | removes a key                |
-| `clear()`             | `void`         | clears all session storage   |
+| Method                | Returns      | Description                    |
+| --------------------- | ------------ | ------------------------------ |
+| `setItem(key, value)` | `void`       | Stores value (auto JSON)       |
+| `getItem(key)`        | `T \| null`  | Retrieves value (auto parse)   |
+| `removeItem(key)`     | `void`       | Removes a key                  |
+| `clear()`             | `void`       | Clears all sessionStorage      |
 
 ---
 
-## individual imports
+## Individual Imports
 
-you can also import each function directly if you prefer:
+You can also import each function directly if you prefer tree-shaking at the function level:
 
 ```ts
 import {
@@ -147,80 +178,85 @@ import {
   getSessionItem,
   removeSessionItem,
   clearSession,
-} from "browser-storage-manager";
+} from "browser-storage-toolkit";
 ```
 
 ---
 
-## browser support
+## SSR Support
 
-works in all modern browsers:
+This library checks for browser availability before every operation. If `window` or `document` is missing (e.g., during server-side rendering in **Next.js**, **Nuxt**, or any SSR framework), it:
 
-- chrome
-- firefox
-- safari
-- edge
-
-also works in ssr environments (next.js, nuxt, etc.) — all functions safely return `null` or do nothing when `window` is not available.
-
----
-
-## ssr support
-
-this library checks for browser availability before every operation. if `window` or `document` is missing (like during server-side rendering), it simply returns `null` for reads and silently skips writes. no crashes, no errors.
+- Returns `null` for all read operations
+- Silently skips all write operations
+- **Never throws** — no try/catch needed on your side
 
 ```ts
+// Safe to call on the server — returns null, no crash
 const value = storage.local.getItem("key");
 ```
 
 ---
 
-## contributing
+## Browser Support
 
-contributions are welcome. here's how to get started:
+Works in all modern browsers:
 
-### setup
+- Chrome
+- Firefox
+- Safari
+- Edge
 
-1. fork the repo
-2. clone your fork
+Also works in SSR environments (Next.js, Nuxt, Remix, Astro, etc.) — all functions safely return `null` or do nothing when `window` is not available.
+
+---
+
+## Contributing
+
+Contributions are welcome. Here's how to get started:
+
+### Setup
+
+1. Fork the repository
+2. Clone your fork
 
 ```bash
-git clone https://github.com/neospark-inc/browser-storage-manager.git
-cd browser-storage-manager
+git clone https://github.com/neospark-inc/browser-storage-toolkit.git
+cd browser-storage-toolkit
 ```
 
-3. install dependencies
+3. Install dependencies
 
 ```bash
 npm install
 ```
 
-4. create a branch
+4. Create a branch
 
 ```bash
 git checkout -b feature/your-feature-name
 ```
 
-### development
+### Development
 
-build the project:
+Build the project:
 
 ```bash
 npm run build
 ```
 
-the compiled output goes to `dist/`.
+The compiled output goes to `dist/`.
 
-### coding standards
+### Coding Standards
 
-- typescript strict mode is on
-- keep functions small and focused
-- no external dependencies unless absolutely necessary
-- write clean, readable code
+- TypeScript strict mode is enabled
+- Keep functions small and focused
+- No external dependencies unless absolutely necessary
+- Write clean, readable code
 
-### commit messages
+### Commit Messages
 
-use clear, descriptive commit messages:
+Use clear, descriptive commit messages:
 
 ```
 feat: add cookie expiry in minutes
@@ -228,14 +264,14 @@ fix: handle null values in getItem
 docs: update usage examples
 ```
 
-### submitting
+### Submitting
 
-1. push your branch
-2. open a pull request against `main`
-3. describe what you changed and why
+1. Push your branch
+2. Open a pull request against `main`
+3. Describe what you changed and why
 
 ---
 
-## license
+## License
 
-[MIT](./LICENSE)
+[MIT](./LICENSE) © 2026 NeoSpark Inc

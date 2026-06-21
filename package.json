@@ -1,22 +1,31 @@
 {
-  "name": "browser-storage-manager",
+  "name": "browser-storage-toolkit",
   "version": "1.0.0",
-  "description": "a simple unified browser storage toolkit for cookies, localStorage and sessionStorage",
+  "description": "A lightweight, SSR-safe, unified browser storage toolkit for Cookies, localStorage, and sessionStorage. Built with TypeScript. Zero dependencies.",
   "main": "./dist/cjs/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/cjs/index.js",
-      "types": "./dist/index.d.ts"
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      }
     }
   },
+  "sideEffects": false,
   "files": [
     "dist",
     "README.md",
     "LICENSE"
   ],
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "clean": "rimraf dist",
     "build:esm": "tsc",
@@ -28,23 +37,29 @@
     "browser",
     "storage",
     "cookie",
+    "cookies",
     "localstorage",
+    "local-storage",
     "sessionstorage",
+    "session-storage",
+    "browser-storage",
+    "storage-wrapper",
     "typescript",
     "ssr",
+    "ssr-safe",
     "nextjs",
     "utility"
   ],
-  "author": "neospark-inc",
+  "author": "NeoSpark Inc",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/neospark-inc/browser-storage-manager.git"
+    "url": "git+https://github.com/neospark-inc/browser-storage-toolkit.git"
   },
   "bugs": {
-    "url": "https://github.com/neospark-inc/browser-storage-manager/issues"
+    "url": "https://github.com/neospark-inc/browser-storage-toolkit/issues"
   },
-  "homepage": "https://github.com/neospark-inc/browser-storage-manager#readme",
+  "homepage": "https://github.com/neospark-inc/browser-storage-toolkit#readme",
   "devDependencies": {
     "rimraf": "^6.1.3",
     "typescript": "^5.8.3"
